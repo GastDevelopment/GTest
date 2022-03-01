@@ -1,4 +1,6 @@
 from random import randint
+from numpy import sort
+from scipy import stats
 import sys
 
 def checkMarks(m):
@@ -61,7 +63,35 @@ def testRandomizer(r, m, p):
                 results.append(f3)
     else:
         pass
-                
+
+def analyse(array, marks):
+    length = len(array)
+    sum = 0
+    total = 0
+    totalSum = length * marks
+    average = 0
+    ma = 0
+    mi = 0
+    common = stats.mode(array)
+    sortedArray = sort(array)
+    for i in range(0, length):
+        sum = sum + array[i]
+        average = sum / length
+        total = total + array[i]
+        ma = sortedArray[-1]
+        mi = sortedArray[0]
+
+
+    print("Total sum of test ---> " + str(total) + "/" + str(totalSum))
+    print("Average ---> " + str(average))
+    print("Highest score ---> " + str(ma))
+    print("Lowest score ---> " + str(mi))
+    print("Most common score ---> " + str(common[0]))
+    print("Sorted scores with percentages: ")
+    for i in range(0, length):
+        percentage = (sortedArray[i] / marks) * 100
+        print("Score: " + str(sortedArray[i]) + "/" + str(marks) + " Percentage: " + str(percentage) + "%")
+    
 print("--------------------------------")
 marks = int(input("Enter the amount of marks the test will have min(20) max(100): "))
 checkMarks(marks)
@@ -71,3 +101,6 @@ difficulty = input("Should the difficulty be EASY, MEDIUM, HARD: ")
 checkDifficulty(difficulty)
 
 testRandomizer(difficulty, marks, pupils)
+print("---------------------------")
+print("Test Result Analysis:")
+analyse(results, marks)
